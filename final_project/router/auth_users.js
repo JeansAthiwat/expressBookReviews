@@ -52,9 +52,25 @@ regd_users.post("/login", (req, res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
-});
+  const ISBN = req.params.isbn;
+  const reviewMessage = req.body.review;
+  const username = req.session.authorization["username"];
+  const book = books[ISBN];
+
+  if (!reviewMessage) {
+    return res.status(401).json({ message: "Review message cannot be blank!" });
+  }
+
+  if (!book) {
+    return res.status(401).json({ message: "Non-existance ISBN number" });
+  }
+
+  book["reviews"][username] = reviewMessage;
+
+  res.send(`review from the user '${username}' updated`);
+}
+
+);
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
