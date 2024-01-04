@@ -77,4 +77,38 @@ public_users.get('/review/:isbn', function (req, res) {
   res.send(bookReview)
 });
 
+
+// TASK 10 - Get the book list available in the shop using async/await
+public_users.get('/books', async function (req, res) {
+  try {
+    await new Promise((resolve) => {
+      resolve(res.send(JSON.stringify({ books }, null, 4)));
+    });
+    console.log("Promise for Task 10 resolved");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+});
+
+//TASK 11 - getting the book details based on ISBN
+public_users.get('/books/:isbn', async function (req, res) {
+  try {
+    await new Promise((resolve, reject) => {
+      const isbn = req.params.isbn;
+      const book = books[isbn];
+      if (isbn != "None") {
+        console.log("Promise for Task 10 resolved");
+        resolve(res.send(book));
+      }else{
+        console.log("Promise for Task 10 rejected");
+        reject("Error no isbn found")
+      }
+
+    })
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+
+});
+
 module.exports.general = public_users;
