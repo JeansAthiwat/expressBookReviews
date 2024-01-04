@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 let books = require("./booksdb.js");
 const regd_users = express.Router();
 
-let users = [];
+let users = [
+  { "username": "asdf", "password": "1234" },
+];
 
 const isValid = (username) => { //returns boolean
   //write code to check is the username is valid
@@ -60,17 +62,25 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   if (!reviewMessage) {
     return res.status(401).json({ message: "Review message cannot be blank!" });
   }
-
   if (!book) {
     return res.status(401).json({ message: "Non-existance ISBN number" });
   }
 
   book["reviews"][username] = reviewMessage;
-
   res.send(`review from the user '${username}' updated`);
-}
+});
 
-);
+//Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const ISBN = req.params.isbn;
+  const username = req.session.authorization["username"];
+  const book = books[ISBN];
+
+  if (book) {
+    delete book["reviews"][username]
+  }
+  res.send(`review from ${username} on the book ISBN ${ISBN} deleted.`);
+});
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
