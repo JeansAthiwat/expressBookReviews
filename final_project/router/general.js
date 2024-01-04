@@ -79,7 +79,7 @@ public_users.get('/review/:isbn', function (req, res) {
 
 
 // TASK 10 - Get the book list available in the shop using async/await
-public_users.get('/books', async function (req, res) {
+public_users.get('/task10', async function (req, res) {
   try {
     await new Promise((resolve) => {
       resolve(res.send(JSON.stringify({ books }, null, 4)));
@@ -91,19 +91,63 @@ public_users.get('/books', async function (req, res) {
 });
 
 //TASK 11 - getting the book details based on ISBN
-public_users.get('/books/:isbn', async function (req, res) {
+public_users.get('/task11/:isbn', async function (req, res) {
   try {
     await new Promise((resolve, reject) => {
       const isbn = req.params.isbn;
       const book = books[isbn];
-      if (isbn != "None") {
-        console.log("Promise for Task 10 resolved");
+      if (isbn) {
+        console.log("Promise for Task 11 resolved");
         resolve(res.send(book));
-      }else{
-        console.log("Promise for Task 10 rejected");
+      } else {
+        console.log("Promise for Task 11 rejected");
         reject("Error no isbn found")
       }
 
+    })
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+
+});
+
+//TASK 12 - getting the book details based on Author
+public_users.get('/task12/:author', async function (req, res) {
+
+  try {
+    await new Promise((resolve, reject) => {
+      const author = req.params.author;
+      let filtered_books = [];
+
+      for (const key in books) {
+        const book = books[key];
+        if (book.author === author) {
+          filtered_books.push({ key: book })
+        }
+      }
+      resolve(res.send(filtered_books))
+    })
+
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+
+});
+
+// TASK 13 -  getting the book details based on Title using axios
+public_users.get('/task13/:title', async function (req, res) {
+  try {
+    await new Promise((resolve, reject) => {
+      const title = req.params.title;
+      let filtered_books = [];
+
+      for (const key in books) {
+        const book = books[key];
+        if (book.title === title) {
+          filtered_books.push({ key: book })
+        }
+      }
+      resolve(res.send(filtered_books))
     })
   } catch (error) {
     console.error("An error occurred:", error);
