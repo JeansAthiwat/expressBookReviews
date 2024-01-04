@@ -41,10 +41,10 @@ public_users.get('/author/:author', function (req, res) {
   const author = req.params.author;
   let filtered_books = [];
 
-  for(const key in books){
+  for (const key in books) {
     const book = books[key];
-    if(book.author === author){
-      filtered_books.push({key:book})
+    if (book.author === author) {
+      filtered_books.push({ key: book })
     }
   }
 
@@ -53,8 +53,17 @@ public_users.get('/author/:author', function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
-  //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const title = req.params.title;
+  let filtered_books = [];
+
+  for (const key in books) {
+    const book = books[key];
+    if (book.title === title) {
+      filtered_books.push({ key: book })
+    }
+  }
+
+  res.send(filtered_books)
 });
 
 //  Get book review
