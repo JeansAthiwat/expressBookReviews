@@ -7,8 +7,8 @@ const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
   //Write your code here
-  const username = req.params.username;
-  const password = req.params.password;
+  const username = req.body.username;
+  const password = req.body.password;
 
   if (username && password) {
     if (!isValid(username)) {
