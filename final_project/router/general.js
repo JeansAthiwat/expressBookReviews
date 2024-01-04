@@ -7,7 +7,7 @@ const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
   //Write your code here
-  ```  const username = req.params.username;
+  const username = req.params.username;
   const password = req.params.password;
 
   if (username && password) {
@@ -19,8 +19,7 @@ public_users.post("/register", (req, res) => {
     }
   }
 
-  return res.status(404).json({ message: "Unable to register user." });```
-  return res.status(300).json({ message: "Yet to be implemented" });
+  return res.status(404).json({ message: "Unable to register user." });
 });
 
 // Get the book list available in the shop
@@ -69,7 +68,13 @@ public_users.get('/title/:title', function (req, res) {
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const ISBN = req.params.isbn;
+  const bookReview = books[ISBN];
+  if (!bookReview) {
+    return res.status(400).json({ message: `No books with ISBN number ${ISBN} found.` });
+  }
+
+  res.send(bookReview)
 });
 
 module.exports.general = public_users;
